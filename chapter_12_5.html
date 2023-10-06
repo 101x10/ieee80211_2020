@@ -199,9 +199,16 @@
 <p>1）增加 PN，为每个 MPDU 获取一个新的 PN，以便该 PN 永远不会重复相同的临时密钥。
 <strong>注意：</strong> 重传的 MPDU 在重传时不会被修改</p>
 <p>2）构建 AAD</p>
+<p>使用 MPDU header 中的字段构建 CCM中使用的 AAD。CCM算法为AAD中包含的 MPDU Header 字段提供了完整性保护。</p>
 <p>3）构建 CCM nonce 块</p>
+<p>使用 PN、 A2（MPDU Header中的Address 2）和Priority值来构建 CCM nonce块。</p>
+<p>对于数据帧，且有 QoS Control字段时，Priority值等于QoS Control字段中的TID值。</p>
+<p>对于管理帧，且是QMF帧时，Priority值等于Sequence Number字段中的ACI值。</p>
+<p>对于其他帧，Priority值为固定值0。</p>
 <p>4）构建 CCMP Header</p>
-<p>5）</p>
+<p>5）使用 temporal key, ADD， nonce和MPDU data 最终生成加密的数据和加密的MIC。</p>
+<p>6）结合原先的 MPDU Header， 加密的数据和加密的MIC，形成最终的加密MPDU。</p>
+<h2 id="ccmp解密过程"><a class="header" href="#ccmp解密过程">CCMP解密过程</a></h2>
 
                     </main>
 
